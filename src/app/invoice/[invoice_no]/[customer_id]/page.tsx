@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import PublicInvoiceView from './PublicInvoiceView';
 
+export const instant = false;
+
 type Params = { invoice_no: string; customer_id: string };
 
 const BACKEND_URL =

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '../../store/authStore';
 import Sidebar from '../../components/layout/Sidebar';
@@ -8,10 +8,18 @@ import Header from '../../components/layout/Header';
 import Toast from '../../components/ui/Toast';
 import GlobalBarcodeScanner from '../../components/GlobalBarcodeScanner';
 
+function PageTransition({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return (
+    <div key={pathname} className="tf-page-in">
+      {children}
+    </div>
+  );
+}
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { token } = useAuthStore();
   const router = useRouter();
-  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -37,9 +45,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <MobileNav />
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
           <Header />
-          <div key={pathname} className="tf-page-in">
-            {children}
-          </div>
+          <Suspense fallback={<div className="tf-page-in">{children}</div>}>
+            <PageTransition>{children}</PageTransition>
+          </Suspense>
         </main>
       </div>
       <Toast />

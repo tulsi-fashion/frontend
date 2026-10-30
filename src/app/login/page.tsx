@@ -27,10 +27,12 @@ export default function LoginPage() {
   const [error, setError]       = useState("");
   const [greeting, setGreeting] = useState("");
   const [dateStr, setDateStr]   = useState("");
+  const [year, setYear]         = useState<number | null>(null);
 
   useEffect(() => {
     setGreeting(getGreeting());
     setDateStr(getDate());
+    setYear(new Date().getFullYear());
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -121,7 +123,7 @@ export default function LoginPage() {
 
         {/* Bottom */}
         <div className="relative z-10 p-10 pt-0">
-          <p className="text-white/30 text-xs">© {new Date().getFullYear()} Tulshi Fashion</p>
+          <p className="text-white/30 text-xs">© {year ?? ''} Tulshi Fashion</p>
         </div>
       </div>
 
