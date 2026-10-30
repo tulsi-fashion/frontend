@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f7fb;
+  --foreground: #20283b;
+
+  --primary: #237a59;
+  --primary-dark: #1d6649;
+  --primary-light: #eaf5ef;
+  --sidebar-bg: #20273d;
+  --sidebar-text: #c2cbdb;
+  --sidebar-active: #3479e6;
+  --surface: #ffffff;
+  --border: #e5e9f0;
+  --muted: #798397;
+  --danger: #b32642;
+  --warning: #a55b00;
+  --success: #16804a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- shared motion ---- */
+@keyframes tf-fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes tf-fade-out { from { opacity: 1 } to { opacity: 0 } }
+@keyframes tf-pop-in { from { opacity: 0; transform: translateY(24px) scale(.94) } to { opacity: 1; transform: none } }
+@keyframes tf-pop-out { from { opacity: 1; transform: none } to { opacity: 0; transform: translateY(8px) scale(.97) } }
+@keyframes tf-toast-in { from { opacity: 0; transform: translateX(24px) scale(.96) } to { opacity: 1; transform: none } }
+
+.tf-fade-in { animation: tf-fade-in .28s ease-out both }
+.tf-fade-out { animation: tf-fade-out .22s ease-in both }
+.tf-pop-in { animation: tf-pop-in .32s cubic-bezier(.2,.8,.2,1) both }
+.tf-pop-out { animation: tf-pop-out .22s ease-in both }
+.tf-toast-in { animation: tf-toast-in .3s cubic-bezier(.2,.8,.2,1) both }
+
+
+/* dropdown panel */
+@keyframes tf-drop-in { from { opacity: 0; transform: translateY(-8px) scale(.97) } to { opacity: 1; transform: none } }
+@keyframes tf-drop-out { from { opacity: 1; transform: none } to { opacity: 0; transform: translateY(-6px) scale(.98) } }
+@keyframes tf-drop-up-in { from { opacity: 0; transform: translateY(8px) scale(.97) } to { opacity: 1; transform: none } }
+@keyframes tf-drop-up-out { from { opacity: 1; transform: none } to { opacity: 0; transform: translateY(6px) scale(.98) } }
+.tf-drop-in { animation: tf-drop-in .2s cubic-bezier(.2,.8,.2,1) both; transform-origin: top }
+.tf-drop-out { animation: tf-drop-out .16s ease-in both; transform-origin: top }
+.tf-drop-up-in { animation: tf-drop-up-in .2s cubic-bezier(.2,.8,.2,1) both; transform-origin: bottom }
+.tf-drop-up-out { animation: tf-drop-up-out .16s ease-in both; transform-origin: bottom }
+
+/* hidden scrollbar for modals */
+.tf-modal-scroll { scrollbar-width: none; }
+.tf-modal-scroll::-webkit-scrollbar { display: none; }
+
+/* generic hidden scrollbar (sidebar, mobile nav, etc.) */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* calendar month slide */
+@keyframes tf-slide-next { from { opacity: 0; transform: translateX(18px) } to { opacity: 1; transform: none } }
+@keyframes tf-slide-prev { from { opacity: 0; transform: translateX(-18px) } to { opacity: 1; transform: none } }
+.tf-slide-next { animation: tf-slide-next .25s cubic-bezier(.2,.8,.2,1) both }
+.tf-slide-prev { animation: tf-slide-prev .25s cubic-bezier(.2,.8,.2,1) both }
+
+/* page transition on route change */
+@keyframes tf-page-in {
+  from { opacity: 0; transform: translateY(8px) }
+  to   { opacity: 1; transform: none }
+}
+.tf-page-in { animation: tf-page-in .32s cubic-bezier(.2,.8,.2,1) both }
+
+/* toast exit (pair with tf-toast-in) */
+@keyframes tf-toast-out {
+  from { opacity: 1; transform: none }
+  to   { opacity: 0; transform: translateX(24px) scale(.96) }
+}
+.tf-toast-out { animation: tf-toast-out .25s ease-in both }
+
+/* subtle list item mount */
+@keyframes tf-list-in {
+  from { opacity: 0; transform: translateY(4px) }
+  to   { opacity: 1; transform: none }
+}
+.tf-list-in { animation: tf-list-in .25s ease-out both }
+
+/* smooth defaults on interactive elements */
+button, a, input, select, textarea, [role="button"] {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform, opacity;
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+
+/* respect user accessibility preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
